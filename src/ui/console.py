@@ -5,6 +5,7 @@
 import traceback
 import math
 
+
 class Console:
     def __init__(self, player_service, game_service):
         self.__player_service = player_service
@@ -25,15 +26,32 @@ class Console:
                 elif command == "Pq" or command == "pq":
                     number_of_players = self.__game_service.get_number_of_players()
                     number_of_players_in_tournament = self.__game_service.get_number_of_players_in_tournament()
-                    nr_of_players_eliminated = number_of_players - number_of_players_in_tournament
-
+                    nr_rounds = number_of_players - number_of_players_in_tournament
+                    # print(number_of_players)
                     # If the number of players is a power of 2
                     if math.log2(number_of_players).is_integer():
                         print("There are no qualifications, since the number of players is already a power of 2.")
                     else:
-                        for times in range(nr_of_players_eliminated):
-                            print("Qualification: ")
+                        # Playing qualifications
+                        li_lost_players = self.__game_service.play_qualifications(nr_rounds)
+                        print(len(li_lost_players))
+                        # Removing losing players
+                        self.__game_service.remove_losing_players(li_lost_players)
+                        # li_players = self.__game_service.get_remaining_players()
+                        # for player in li_players:
+                        #     self.display_player(player)
+                elif command == "Pt" or command == "pt":
+                    number_of_players = self.__game_service.get_number_of_players()
+                    # print(number_of_players)
+                    while number_of_players != 1:
+                        number_of_players = self.__game_service.get_number_of_players()
+                        nr_rounds = math.log2(number_of_players)
 
+                        li_lost_players = self.__game_service.play_tournament(nr_rounds)
+                        self.__game_service.remove_losing_players(li_lost_players)
+
+                elif command == "X" or command == 'x':
+                    return
             except Exception as ex:
                 print(str(ex))
                 traceback.print_exc()
@@ -54,3 +72,7 @@ class Console:
             print(player.id + ' ' + player.name + ' ' + player.p_strength)
 
         print("\n")
+
+    @staticmethod
+    def display_player(player):
+        print(player.id + ' ' + player.name + ' ' + player.p_strength)
