@@ -61,8 +61,10 @@ class GameService:
         winner = input("Who won?\n")
 
         if winner == '1':
+            player1.p_strength = str(int(player1.p_strength) + 1)
             return [player1, player2]
         else:
+            player2.p_strength = str(int(player2.p_strength) + 1)
             return [player2, player1]
 
     @staticmethod
@@ -100,7 +102,7 @@ class GameService:
             while index_player2 == index_player1:
                 index_player2 = random.randint(0, len(li_playing_players))
 
-            print("\nLast" + str(len(li_playing_players)) + ": ")
+            print("\nLast " + str(len(li_playing_players)) + " : ")
             winner, loser = self.play_game(li_playing_players[index_player1], li_playing_players[index_player2])
 
             li_lost_players.append(loser)

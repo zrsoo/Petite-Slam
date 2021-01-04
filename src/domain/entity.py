@@ -20,3 +20,8 @@ class Player:
     @property
     def p_strength(self):
         return self.__p_strength
+
+    @p_strength.setter
+    def p_strength(self, p_strength):
+        self.__p_strength = p_strength
+

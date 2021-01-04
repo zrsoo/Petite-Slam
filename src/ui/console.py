@@ -45,10 +45,14 @@ class Console:
                     # print(number_of_players)
                     while number_of_players != 1:
                         number_of_players = self.__game_service.get_number_of_players()
-                        nr_rounds = math.log2(number_of_players)
-
+                        nr_rounds = math.floor(math.log2(number_of_players))
+                        # print(nr_rounds)
                         li_lost_players = self.__game_service.play_tournament(nr_rounds)
                         self.__game_service.remove_losing_players(li_lost_players)
+
+                    print("The winner is: ")
+                    li_player = self.__game_service.get_remaining_players()
+                    self.display_player(li_player[0])
 
                 elif command == "X" or command == 'x':
                     return
